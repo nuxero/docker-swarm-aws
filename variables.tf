@@ -1,4 +1,12 @@
-variable "aws_region" {}
+variable "aws_region" {
+  type    = "string"
+  default = "us-east-1"
+}
+
+variable "aws_az" {
+  type    = "list"
+  default = ["us-east-1a","us-east-1b","us-east-1c"]
+}
 
 variable "ec2_ami" {}
 

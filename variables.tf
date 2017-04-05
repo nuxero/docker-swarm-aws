@@ -23,3 +23,5 @@ variable "worker_size" {
 }
 
 variable "key" {}
+
+variable "key_local_path" {}

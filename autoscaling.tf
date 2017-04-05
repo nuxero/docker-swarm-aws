@@ -4,7 +4,10 @@ resource "aws_launch_configuration" "swarm_manager_as_conf" {
   instance_type   = "${var.manager_size}"
   key_name        = "${var.key}"
   security_groups = ["${aws_security_group.swarm_sg.id}"]
-
+  user_data       = <<EOF
+#!/bin/bash
+docker swarm join ${aws_instance.swarm_master.private_ip}:2377 --token $(docker -H ${aws_instance.swarm_master.private_ip}:2376 swarm join-token -q manager)
+EOF
   lifecycle {
     create_before_destroy = true
   }
@@ -37,7 +40,10 @@ resource "aws_launch_configuration" "swarm_worker_as_conf" {
   instance_type   = "${var.worker_size}"
   key_name        = "${var.key}"
   security_groups = ["${aws_security_group.swarm_sg.id}"]
-
+  user_data       = <<EOF
+#!/bin/bash
+docker swarm join ${aws_instance.swarm_master.private_ip}:2377 --token $(docker -H ${aws_instance.swarm_master.private_ip}:2376 swarm join-token -q worker)
+EOF
   lifecycle {
     create_before_destroy = true
   }

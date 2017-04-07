@@ -14,6 +14,7 @@ resource "aws_security_group" "swarm_sg" {
     to_port         = 2376
     protocol        = "tcp"
     security_groups = ["${aws_security_group.swarm_lb_sg.id}"]
+    self            = true
   }
   ingress {
     from_port   = 7946

@@ -1,2 +1,4 @@
 *tfstate*
 .env
+node_modules
+package.json

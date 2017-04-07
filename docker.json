@@ -14,6 +14,10 @@
             "type": "file",
             "source": "./docker.conf",
             "destination": "/home/ubuntu/docker.conf"
+        },{
+            "type": "file",
+            "source": "./init.js",
+            "destination": "/home/ubuntu/init.js"
         },
         {
             "type": "shell",
@@ -27,7 +31,10 @@
                 "sudo usermod -aG docker ubuntu",
                 "sudo mkdir -p /etc/systemd/system/docker.service.d",
                 "sudo mv /home/ubuntu/docker.conf /etc/systemd/system/docker.service.d/docker.conf",
-                "curl -sSL https://dl.bintray.com/emccode/rexray/install | sh -s -- stable"
+                "curl -sSL https://dl.bintray.com/emccode/rexray/install | sh -s -- stable",
+                "sudo apt-get install -y nodejs npm",
+                "pwd",
+                "npm install aws-sdk"
             ]
         }
     ]

@@ -4,6 +4,15 @@ resource "aws_launch_configuration" "swarm_manager_as_conf" {
   instance_type   = "${var.manager_size}"
   key_name        = "${var.key}"
   security_groups = ["${aws_security_group.swarm_sg.id}"]
+  iam_instance_profile  = "${aws_iam_instance_profile.swarm_cluster_profile.id}"
+
+  user_data       = <<EOF
+#!/bin/bash
+export ROLE=manager
+export AWS_REGION=${var.aws_region}
+export INSTANCE=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+nodejs /home/ubuntu/init.js
+EOF
 
   lifecycle {
     create_before_destroy = true
@@ -26,6 +35,12 @@ resource "aws_autoscaling_group" "swarm_manager_asg" {
     propagate_at_launch = true
   }
 
+  tag {
+    key                 = "Init"
+    value               = "false"
+    propagate_at_launch = true
+  }
+
   lifecycle {
     create_before_destroy = true
   }
@@ -37,6 +52,15 @@ resource "aws_launch_configuration" "swarm_worker_as_conf" {
   instance_type   = "${var.worker_size}"
   key_name        = "${var.key}"
   security_groups = ["${aws_security_group.swarm_sg.id}"]
+  iam_instance_profile  = "${aws_iam_instance_profile.swarm_cluster_profile.id}"
+
+  user_data       = <<EOF
+#!/bin/bash
+export ROLE=worker
+export AWS_REGION=${var.aws_region}
+export INSTANCE=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+nodejs /home/ubuntu/init.js
+EOF
 
   lifecycle {
     create_before_destroy = true
@@ -52,6 +76,7 @@ resource "aws_autoscaling_group" "swarm_worker_asg" {
   launch_configuration  = "${aws_launch_configuration.swarm_worker_as_conf.name}"
   health_check_type     = "ELB"
   load_balancers        = ["${aws_elb.swarm_lb.name}"]
+  depends_on            = ["aws_autoscaling_group.swarm_manager_asg"]
 
   tag {
     key                 = "Name"

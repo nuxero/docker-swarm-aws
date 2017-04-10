@@ -9,9 +9,9 @@ resource "aws_launch_configuration" "swarm_manager_as_conf" {
   user_data       = <<EOF
 #!/bin/bash
 export ROLE=manager
-export AWS_REGION=${var.aws_region}
 export INSTANCE=$(curl http://169.254.169.254/latest/meta-data/instance-id)
-nodejs /home/ubuntu/init.js
+export AWS_DEFAULT_REGION=${var.aws_region}
+python3 /home/ubuntu/init.py
 EOF
 
   lifecycle {
@@ -57,9 +57,9 @@ resource "aws_launch_configuration" "swarm_worker_as_conf" {
   user_data       = <<EOF
 #!/bin/bash
 export ROLE=worker
-export AWS_REGION=${var.aws_region}
 export INSTANCE=$(curl http://169.254.169.254/latest/meta-data/instance-id)
-nodejs /home/ubuntu/init.js
+export AWS_DEFAULT_REGION=${var.aws_region}
+python3 /home/ubuntu/init.py
 EOF
 
   lifecycle {

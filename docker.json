@@ -16,8 +16,8 @@
             "destination": "/home/ubuntu/docker.conf"
         },{
             "type": "file",
-            "source": "./init.js",
-            "destination": "/home/ubuntu/init.js"
+            "source": "./init.py",
+            "destination": "/home/ubuntu/init.py"
         },
         {
             "type": "shell",
@@ -32,9 +32,8 @@
                 "sudo mkdir -p /etc/systemd/system/docker.service.d",
                 "sudo mv /home/ubuntu/docker.conf /etc/systemd/system/docker.service.d/docker.conf",
                 "curl -sSL https://dl.bintray.com/emccode/rexray/install | sh -s -- stable",
-                "sudo apt-get install -y nodejs npm",
-                "pwd",
-                "npm install aws-sdk"
+                "sudo apt install -y python3-pip",
+                "sudo pip3 install boto3"
             ]
         }
     ]

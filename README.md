@@ -20,7 +20,6 @@ export TF_VAR_manager_count=how-many-managers-do-you-want Ej: 1, 3, 5 (odd numbe
 export TF_VAR_worker_count=how-many-workers-do-you-want Ej: 1,5,10,1000
 export TF_VAR_key=your-key
 export TF_VAR_ec2_ami=the-ami-key-generated-with-packer
-export TF_VAR_key_local_path=path-to-the-key-pair-for-ssh
 ```
 
 Also check all the variables on the `variables.tf` file and modify as you wish. Now you can provision the infrastructure with Terraform
@@ -41,7 +40,7 @@ Currently there are no outputs defined so you should login to AWS console to get
 # TO-DO
 * ~~Think about how to initialize cluster and how worker nodes will automagically join to it~~
 * ~~Improve cluster initializer/join-nodes script~~
-* Remove workers from cluster when replaced
+* ~~Remove workers from cluster when replaced~~
 * Deploy some CI/CD tools on cluster (Jenkins?)
 * Add a Docker registry
 * Add a proxy for accessing containers (Docker Flow Proxy?)

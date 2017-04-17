@@ -8,6 +8,7 @@ export AWS_ACCESS_KEY_ID=your-access-key-here
 export AWS_SECRET_ACCESS_KEY=your-secret-access-key-here
 export AWS_DEFAULT_REGION=your-region
 
+cd packer/
 packer build -var 'region=us-east-1' docker.json
 ```
 
@@ -24,7 +25,10 @@ export TF_VAR_ec2_ami=the-ami-key-generated-with-packer
 
 Also check all the variables on the `variables.tf` file and modify as you wish. Now you can provision the infrastructure with Terraform
 
-`terraform apply`
+```
+cd terraform/
+terraform apply
+```
 
 A brief description of scripts is provided next:
 
